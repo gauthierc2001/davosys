@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
 import { subscribers } from '@/drizzle/schema'
-import { ratelimit } from '@/lib/ratelimit'
 import { eq } from 'drizzle-orm'
 
 const subscribeSchema = z.object({
@@ -13,25 +12,6 @@ const subscribeSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting with fallback
-    const ip = request.ip ?? '127.0.0.1'
-    let rateLimitSuccess = true
-    
-    try {
-      const { success } = await ratelimit.limit(ip)
-      rateLimitSuccess = success
-    } catch (rateLimitError) {
-      console.warn('Rate limiting failed, continuing without it:', rateLimitError)
-      rateLimitSuccess = true // Allow request to continue
-    }
-    
-    if (!rateLimitSuccess) {
-      return NextResponse.json(
-        { error: 'Too many requests. Please try again later.' },
-        { status: 429 }
-      )
-    }
-
     const body = await request.json()
     const validatedData = subscribeSchema.parse(body)
 
