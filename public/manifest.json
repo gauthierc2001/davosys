@@ -1,0 +1,21 @@
+{
+  "name": "Davo - The on-chain coordination layer for robotics",
+  "short_name": "Davo",
+  "description": "Identity, task markets, escrow and reputation on Base",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#EFE4D5",
+  "theme_color": "#FD7600",
+  "icons": [
+    {
+      "src": "/davologo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/davologo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
