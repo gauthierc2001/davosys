@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { db } from '@/lib/db'
 import { subscribers } from '@/drizzle/schema'
 import { ratelimit } from '@/lib/ratelimit'
+import { eq } from 'drizzle-orm'
 
 const subscribeSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -38,7 +39,7 @@ export async function POST(request: NextRequest) {
     const existingSubscriber = await db
       .select()
       .from(subscribers)
-      .where(subscribers.email.equals(validatedData.email))
+      .where(eq(subscribers.email, validatedData.email))
       .limit(1)
 
     if (existingSubscriber.length > 0) {
